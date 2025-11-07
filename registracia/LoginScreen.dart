@@ -1,10 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
+import 'RegistrationScreen.dart';
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    // Создаем контроллеры для текстовых полей
+    final emailController = TextEditingController();
+    final passwordController = TextEditingController();
+
     return Scaffold(
       backgroundColor: Colors.white,
       body: Padding(
@@ -59,10 +65,11 @@ class LoginScreen extends StatelessWidget {
             
             const SizedBox(height: 30),
             
-            // Поле логина
-            const TextField(
-              decoration: InputDecoration(
-                labelText: 'Логин',
+
+            TextField(
+              controller: emailController,
+              decoration: const InputDecoration(
+                labelText: 'Email',
                 border: OutlineInputBorder(),
                 contentPadding: EdgeInsets.symmetric(horizontal: 15, vertical: 15),
               ),
@@ -71,9 +78,10 @@ class LoginScreen extends StatelessWidget {
             const SizedBox(height: 15),
             
             // Поле пароля
-            const TextField(
+            TextField(
+              controller: passwordController,
               obscureText: true,
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                 labelText: 'Пароль',
                 border: OutlineInputBorder(),
                 contentPadding: EdgeInsets.symmetric(horizontal: 15, vertical: 15),
@@ -87,8 +95,56 @@ class LoginScreen extends StatelessWidget {
               width: double.infinity,
               height: 50,
               child: ElevatedButton(
-                onPressed: () {
-                  // Действие при входе
+                onPressed: () async {
+                  try {
+                    final supabase = Supabase.instance.client;
+                    final response = await supabase.auth.signInWithPassword(
+                      email: 'ula@examp.com',
+                      password: 'password',
+                    );
+
+                    // Показываем всплывающее сообщение об успешном входе
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: const Text(
+                          'Вы успешно вошли в систему!',
+                          style: TextStyle(color: Colors.white),
+                        ),
+                        backgroundColor: Colors.green,
+                        duration: const Duration(seconds: 3),
+                        behavior: SnackBarBehavior.floating,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                      ),
+                    );
+
+
+                  } on AuthException catch (e) {
+                    // Обработка ошибок аутентификации
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text(
+                          'Ошибка входа: ${e.message}',
+                          style: const TextStyle(color: Colors.white),
+                        ),
+                        backgroundColor: Colors.red,
+                        duration: const Duration(seconds: 3),
+                      ),
+                    );
+                  } catch (e) {
+                    // Обработка других ошибок
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text(
+                          'Произошла ошибка: $e',
+                          style: const TextStyle(color: Colors.white),
+                        ),
+                        backgroundColor: Colors.red,
+                        duration: const Duration(seconds: 3),
+                      ),
+                    );
+                  }
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.blue,
