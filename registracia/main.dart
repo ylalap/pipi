@@ -11,11 +11,11 @@ void main() async {
   // Регистрация
 
 final supabase = Supabase.instance.client;
-
+/*
 final response = await supabase.auth.signUp(
-  email: 'user@examp.com',
+  email: 'ula@examp.com',
   password: 'password',
-);
+);*/
 
 // Авторизация
 /*final response2 = await supabase.auth.signInWithPassword(
