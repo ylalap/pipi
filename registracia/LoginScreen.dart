@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:table_calendar/table_calendar.dart';
 import 'RegistrationScreen.dart';
 
 class LoginScreen extends StatelessWidget {
@@ -153,7 +154,7 @@ class LoginScreen extends StatelessWidget {
                   ),
                 ),
                 child: const Text(
-                  'Войти',
+                  'Войти.',
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 16,
@@ -161,6 +162,12 @@ class LoginScreen extends StatelessWidget {
                 ),
               ),
             ),
+            TableCalendar(
+          firstDay: DateTime.utc(2010, 10, 16),
+          lastDay: DateTime.utc(2030, 3, 14),
+          focusedDay: DateTime.now(),
+          onDayLongPressed: (i,b) { print("i="+i.toString()); print("b="+b.toString()); },
+          ),
           ],
         ),
       ),
