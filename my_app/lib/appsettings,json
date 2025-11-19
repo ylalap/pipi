@@ -1,0 +1,5 @@
+{
+  "ConnectionStrings": {
+    "DefaultConnection": "Server=(localdb)\\mssqllocaldb;Database=AutoDealerDb;Trusted_Connection=true;MultipleActiveResultSets=true"
+  }
+}

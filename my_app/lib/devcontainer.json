@@ -1,0 +1,43 @@
+{
+    "name": "Flutter & .NET Development",
+    "image": "mcr.microsoft.com/vscode/devcontainers/dotnet:7.0",
+    
+    "features": {
+        "ghcr.io/devcontainers/features/flutter:1": {
+            "version": "stable"
+        },
+        "ghcr.io/devcontainers/features/dotnet:1": {
+            "version": "7.0"
+        }
+    },
+
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "Dart-Code.flutter",
+                "Dart-Code.dart-code",
+                "ms-dotnettools.csharp",
+                "ms-dotnettools.csdevkit"
+            ]
+        }
+    },
+
+    "forwardPorts": [3000, 5000, 7243],
+
+    "portsAttributes": {
+        "3000": {
+            "label": "Flutter Web App",
+            "onAutoForward": "notify"
+        },
+        "5000": {
+            "label": "ASP.NET Core API (HTTP)",
+            "onAutoForward": "notify"
+        },
+        "7243": {
+            "label": "ASP.NET Core API (HTTPS)",
+            "onAutoForward": "notify"
+        }
+    },
+
+    "postCreateCommand": "cd api && dotnet restore && cd ../flutter_app && flutter pub get"
+}
